@@ -74,8 +74,8 @@ export default function QuickFixPage() {
           <ol className="list-decimal list-inside space-y-2 text-yellow-800">
             <li>访问 <a href="https://console.cloud.google.com" target="_blank" rel="noopener noreferrer" className="underline">Google Cloud Console</a></li>
             <li>创建或选择项目</li>
-            <li>导航到 APIs & Services > Credentials</li>
-            <li>点击 Create Credentials > OAuth client ID</li>
+            <li>导航到 APIs &amp; Services &gt; Credentials</li>
+            <li>点击 Create Credentials &gt; OAuth client ID</li>
             <li>选择 Web application</li>
             <li>添加重定向 URI: <code>{supabaseUrl}/auth/v1/callback</code></li>
             <li>复制 Client ID 和 Client Secret 到 Supabase</li>

@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { SimpleGoogleButton } from "@/components/auth/SimpleGoogleButton";
 import { SimpleGitHubButton } from "@/components/auth/SimpleGitHubButton";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
+import Link from "next/link";
 
-export default function TestGoogleAuthPage() {
+function TestGoogleAuthPageContent() {
   const [message, setMessage] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const searchParams = useSearchParams();
@@ -92,15 +93,27 @@ export default function TestGoogleAuthPage() {
           </div>
 
           <div className="mt-4 text-center">
-            <a
+            <Link
               href="/"
               className="text-blue-600 hover:text-blue-800 underline text-sm"
             >
               返回主页
-            </a>
+            </Link>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TestGoogleAuthPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="text-center">Loading...</div>
+      </div>
+    }>
+      <TestGoogleAuthPageContent />
+    </Suspense>
   );
 }

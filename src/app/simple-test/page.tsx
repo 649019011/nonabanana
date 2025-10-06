@@ -2,6 +2,7 @@
 
 import { SimpleGoogleButton } from "@/components/auth/SimpleGoogleButton";
 import { SimpleGitHubButton } from "@/components/auth/SimpleGitHubButton";
+import Link from "next/link";
 
 export default function SimpleTestPage() {
   return (
@@ -27,12 +28,12 @@ export default function SimpleTestPage() {
           </div>
 
           <div className="text-center">
-            <a
+            <Link
               href="/"
               className="text-blue-600 hover:text-blue-800 underline text-sm"
             >
               返回主页
-            </a>
+            </Link>
           </div>
         </div>
       </div>
