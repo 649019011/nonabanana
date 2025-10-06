@@ -6,9 +6,13 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Sparkles, Zap, MessageSquare, Image, Target, Layers, Edit3, Repeat, Star, Menu, Loader2 } from "lucide-react";
+import { ChevronDown, Sparkles, Zap, MessageSquare, Image, Target, Layers, Edit3, Repeat, Star, Menu, Loader2, User, LogOut } from "lucide-react";
+import { SimpleGitHubButton } from "@/components/auth/SimpleGitHubButton";
+import { SimpleGoogleButton } from "@/components/auth/SimpleGoogleButton";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Home() {
+  const { user, loading, signOut, isAuthenticated } = useAuth();
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [prompt, setPrompt] = useState("");
   // Store generated image URLs from API
@@ -115,13 +119,46 @@ export default function Home() {
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-4">
-              <Button variant="outline" className="hidden sm:inline-flex">
-                Sign In
-              </Button>
-              <Button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-medium">
-                <Sparkles className="w-4 h-4 mr-2" />
-                Launch Now
-              </Button>
+              {loading ? (
+                <Loader2 className="w-5 h-5 animate-spin text-gray-500" />
+              ) : isAuthenticated ? (
+                <div className="flex items-center space-x-3">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                      <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                        {user?.user_metadata?.avatar_url ? (
+                          <img
+                            src={user.user_metadata.avatar_url}
+                            alt="Avatar"
+                            className="w-8 h-8 rounded-full object-cover"
+                          />
+                        ) : (
+                          <User className="w-4 h-4 text-white" />
+                        )}
+                      </div>
+                      <span className="hidden sm:inline text-sm font-medium">
+                        {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}
+                      </span>
+                      <ChevronDown className="w-4 h-4" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem onClick={signOut}>
+                        <LogOut className="w-4 h-4 mr-2" />
+                        退出登录
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              ) : (
+                <>
+                  <SimpleGoogleButton variant="outline" className="hidden sm:inline-flex" />
+                  <SimpleGitHubButton variant="outline" className="hidden sm:inline-flex" />
+                  <Button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-medium">
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Launch Now
+                  </Button>
+                </>
+              )}
               <Button variant="ghost" size="sm" className="md:hidden">
                 <Menu className="w-5 h-5" />
               </Button>
@@ -168,10 +205,17 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12">
-            <Button size="lg" className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold px-8 py-4 text-lg rounded-full shadow-lg">
-              <Edit3 className="w-5 h-5 mr-2" />
-              Start Editing
-            </Button>
+            {!isAuthenticated ? (
+              <>
+                <SimpleGoogleButton size="lg" className="bg-white text-gray-700 border-2 border-gray-300 hover:border-orange-300 font-semibold px-8 py-4 text-lg rounded-full shadow-lg" />
+                <SimpleGitHubButton size="lg" className="bg-white text-gray-700 border-2 border-gray-300 hover:border-orange-300 font-semibold px-8 py-4 text-lg rounded-full shadow-lg" />
+              </>
+            ) : (
+              <Button size="lg" className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold px-8 py-4 text-lg rounded-full shadow-lg">
+                <Edit3 className="w-5 h-5 mr-2" />
+                Start Editing
+              </Button>
+            )}
             <Button size="lg" variant="outline" className="border-2 border-gray-300 hover:border-orange-300 font-semibold px-8 py-4 text-lg rounded-full">
               View Examples
             </Button>
