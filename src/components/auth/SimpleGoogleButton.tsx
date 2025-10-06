@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
-import { useAuth } from '@/contexts/AuthContext'
 
 interface SimpleGoogleButtonProps {
   className?: string
@@ -17,14 +16,14 @@ export function SimpleGoogleButton({
   size = "default"
 }: SimpleGoogleButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const { signInWithGoogle } = useAuth()
 
   const handleGoogleLogin = async () => {
     setIsLoading(true)
     try {
-      await signInWithGoogle()
+      // 重定向到 Google OAuth 端点
+      window.location.href = '/api/auth/google'
     } catch (error) {
-      console.error('[Auth] Google 登录错误:', error)
+      console.error('[Auth] Google login error:', error)
     } finally {
       setIsLoading(false)
     }
@@ -41,7 +40,7 @@ export function SimpleGoogleButton({
       {isLoading ? (
         <>
           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-          连接中...
+          Connecting...
         </>
       ) : (
         <>
@@ -63,7 +62,7 @@ export function SimpleGoogleButton({
               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
             />
           </svg>
-          使用 Google 登录
+          Sign in with Google
         </>
       )}
     </Button>

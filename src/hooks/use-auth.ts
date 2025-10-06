@@ -32,10 +32,12 @@ export function useAuth() {
 
     // 监听认证状态变化
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('[Auth] 认证状态变化:', { event, hasUser: !!session?.user })
+      async (event) => {
+        // 发生变化后使用 getUser() 进行二次校验，避免直接信任会话对象
+        const { data: { user } } = await supabase.auth.getUser()
+        console.log('[Auth] 认证状态变化(getUser):', { event, hasUser: !!user })
         if (mounted) {
-          setUser(session?.user ?? null)
+          setUser(user ?? null)
           setLoading(false)
         }
       }

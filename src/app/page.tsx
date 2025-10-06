@@ -7,12 +7,19 @@ import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown, Sparkles, Zap, MessageSquare, Image, Target, Layers, Edit3, Repeat, Star, Menu, Loader2, User, LogOut } from "lucide-react";
-import { SimpleGitHubButton } from "@/components/auth/SimpleGitHubButton";
-import { SimpleGoogleButton } from "@/components/auth/SimpleGoogleButton";
-import { useAuth } from "@/hooks/use-auth";
+import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
   const { user, loading, signOut, isAuthenticated } = useAuth();
+
+  // 调试日志
+  console.log('[Page] 认证状态:', {
+    loading,
+    isAuthenticated,
+    userId: user?.id,
+    email: user?.email
+  })
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [prompt, setPrompt] = useState("");
   // Store generated image URLs from API
@@ -151,8 +158,7 @@ export default function Home() {
                 </div>
               ) : (
                 <>
-                  <SimpleGoogleButton variant="outline" className="hidden sm:inline-flex" />
-                  <SimpleGitHubButton variant="outline" className="hidden sm:inline-flex" />
+                  <SocialLoginButtons variant="outline" className="hidden sm:inline-flex" />
                   <Button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-medium">
                     <Sparkles className="w-4 h-4 mr-2" />
                     Launch Now
@@ -207,8 +213,10 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12">
             {!isAuthenticated ? (
               <>
-                <SimpleGoogleButton size="lg" className="bg-white text-gray-700 border-2 border-gray-300 hover:border-orange-300 font-semibold px-8 py-4 text-lg rounded-full shadow-lg" />
-                <SimpleGitHubButton size="lg" className="bg-white text-gray-700 border-2 border-gray-300 hover:border-orange-300 font-semibold px-8 py-4 text-lg rounded-full shadow-lg" />
+                <SocialLoginButtons
+                  size="lg"
+                  className="bg-white text-gray-700 border-2 border-gray-300 hover:border-orange-300 font-semibold rounded-full shadow-lg"
+                />
               </>
             ) : (
               <Button size="lg" className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold px-8 py-4 text-lg rounded-full shadow-lg">

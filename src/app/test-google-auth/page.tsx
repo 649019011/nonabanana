@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import { SimpleGoogleButton } from "@/components/auth/SimpleGoogleButton";
-import { SimpleGitHubButton } from "@/components/auth/SimpleGitHubButton";
+import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
 import Link from "next/link";
@@ -65,10 +64,7 @@ function TestGoogleAuthPageContent() {
         <div className="space-y-4">
           <div className="text-center">
             <p className="text-gray-600 mb-4">点击下面的按钮测试 OAuth 登录功能</p>
-            <div className="space-y-3">
-              <SimpleGoogleButton className="w-full" />
-              <SimpleGitHubButton className="w-full" />
-            </div>
+            <SocialLoginButtons className="" />
           </div>
 
           <div className="mt-8 p-4 bg-blue-50 rounded-lg">

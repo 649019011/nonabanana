@@ -1,7 +1,6 @@
 "use client";
 
-import { SimpleGoogleButton } from "@/components/auth/SimpleGoogleButton";
-import { SimpleGitHubButton } from "@/components/auth/SimpleGitHubButton";
+import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import Link from "next/link";
 
 export default function SimpleTestPage() {
@@ -13,10 +12,7 @@ export default function SimpleTestPage() {
         <div className="space-y-4">
           <p className="text-gray-600 text-center">测试登录按钮功能：</p>
 
-          <div className="space-y-3">
-            <SimpleGoogleButton className="w-full" />
-            <SimpleGitHubButton className="w-full" />
-          </div>
+          <SocialLoginButtons className="" />
 
           <div className="mt-6 p-4 bg-blue-50 rounded-lg">
             <h3 className="font-semibold text-blue-900 mb-2">说明：</h3>
